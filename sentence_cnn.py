@@ -18,12 +18,12 @@ import keras
 
 from sentence_types import load_encoded_data
 
-from keras.preprocessing import sequence
-from keras.models import Sequential, model_from_json
-from keras.layers import Dense, Dropout, Activation
-from keras.layers import Embedding, Conv1D, GlobalMaxPooling1D
+from tensorflow.keras.preprocessing import sequence
+from tensorflow.keras.models import Sequential, model_from_json
+from tensorflow.keras.layers import Dense, Dropout, Activation
+from tensorflow.keras.layers import Embedding, Conv1D, GlobalMaxPooling1D
 
-from keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 max_words = 10000
 maxlen = 500

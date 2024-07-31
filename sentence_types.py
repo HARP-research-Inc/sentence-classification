@@ -379,7 +379,7 @@ def encode_data(test_comments, test_comments_category,
     
     print(np.array(encoded_categories[0]))
 
-    x_train = np.array(encoded_comments[:training_sample])
+    x_train = stack_padding(encoded_comments[:training_sample])
     x_test  = np.array(encoded_comments[training_sample:])
     y_train = np.array(encoded_categories[0][:training_sample])
     y_test  = np.array(encoded_categories[0][training_sample:])
@@ -443,13 +443,38 @@ def load_encoded_data(data_split=0.8, embedding_name="data/default", pos_tags=Fa
                 
     training_sample = int(len(encoded_comments) * data_split)
 
-    x_train = np.array(encoded_comments[:training_sample])
-    x_test  = np.array(encoded_comments[training_sample:])
+    print([len(item) for item in encoded_comments[:10]])
+    # print([len(item) for item in encoded_categories[:10]])
+    # print("done")
+    x_train = stack_padding(encoded_comments[:training_sample])
+    x_test  = stack_padding(encoded_comments[training_sample:])
     y_train = np.array(encoded_categories[:training_sample])
     y_test  = np.array(encoded_categories[training_sample:])
+
+    
+    # x_train = np.array(encoded_comments[:training_sample])
+    # x_test  = np.array(encoded_comments[training_sample:])
+    # y_train = np.array(encoded_categories[:training_sample])
+    # y_test  = np.array(encoded_categories[training_sample:])
 
     print(len(x_train), 'train sequences')
     print(len(x_test), 'test sequences')
 
     return x_train, x_test, y_train, y_test
 
+# import numpy as np
+# import timeit
+# import itertools
+
+def stack_padding(it):
+
+    def resize(row, size):
+        new = np.array(row)
+        new.resize(size)
+        return new
+
+    # find longest row length
+    row_length = max(it, key=len).__len__()
+    mat = np.array( [resize(row, row_length) for row in it] )
+
+    return mat

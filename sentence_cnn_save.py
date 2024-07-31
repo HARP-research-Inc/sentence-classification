@@ -23,12 +23,11 @@ from sentence_types import load_encoded_data
 from sentence_types import encode_data, import_embedding
 from sentence_types import get_custom_test_comments
 
-from keras.preprocessing import sequence
-from keras.models import Sequential, model_from_json
-from keras.layers import Dense, Dropout, Activation, Embedding
-from keras.layers import Conv1D, GlobalMaxPooling1D
-
-from keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing import sequence
+from tensorflow.keras.models import Sequential, model_from_json
+from tensorflow.keras.layers import Dense, Dropout, Activation, Embedding
+from tensorflow.keras.layers import Conv1D, GlobalMaxPooling1D
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 # Use can load a different model if desired
 model_name      = "models/cnn"
@@ -44,11 +43,19 @@ print("Load Model?", (load_model_flag))
 # Model configuration
 maxlen = 500
 batch_size = 64
-embedding_dims = 75
-filters = 100
+embedding_dims = 50
+filters = 250
 kernel_size = 5
-hidden_dims = 350
-epochs = 2
+hidden_dims = 150
+epochs = 30
+
+# maxlen = 500
+# batch_size = 64
+# embedding_dims = 75
+# filters = 100
+# kernel_size = 5
+# hidden_dims = 350
+# epochs = 2
 
 # Add parts-of-speech to data
 pos_tags_flag = True
@@ -111,7 +118,7 @@ if not load_model_flag:
         json_file.write(model_json)
     
     # serialize weights to HDF5
-    model.save_weights(model_name + ".h5")
+    model.save_weights(model_name + ".weights.h5")
     print("Saved model to disk")
 
 else:
@@ -125,7 +132,7 @@ else:
     model = model_from_json(loaded_model_json)
     
     # load weights into new model
-    model.load_weights(model_name + ".h5")
+    model.load_weights(model_name + ".weights.h5")
     print("Loaded model from disk")
     
     # evaluate loaded model on test data
